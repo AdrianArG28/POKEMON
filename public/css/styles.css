@@ -1,0 +1,380 @@
+/* ==========================================================================
+   1. VARIABLES DE DISEÑO (SYSTEM DESIGN TOKENS)
+   ========================================================================== */
+:root {
+    --bg-dark: #020617;
+    --bg-app: rgba(30, 41, 59, 0.4);
+    --primary: #38bdf8;
+    --primary-glow: rgba(56, 189, 248, 0.3);
+    --text-main: #f8fafc;
+    --text-muted: #64748b;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   2. RESET Y BASE ESTÉTICA
+   ========================================================================== */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.05), transparent),
+        radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.05), transparent);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Scrollbar Elegante */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* ==========================================================================
+   3. ESTRUCTURA Y GLASSMORPHISM
+   ========================================================================== */
+.hidden { display: none !important; }
+
+#app { 
+    padding: 48px; 
+    max-width: 900px; 
+    margin: 40px auto;
+    background: var(--bg-app);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-container { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+
+/* ==========================================================================
+   4. COMPONENTES: NAVEGACIÓN Y BOTONES
+   ========================================================================== */
+.topbar { 
+    display: flex; gap: 10px; margin-bottom: 40px; 
+    border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; 
+}
+
+button {
+    padding: 12px 28px;
+    border: none; cursor: pointer;
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    color: #020617;
+    font-weight: 700;
+    transition: var(--transition);
+    position: relative; overflow: hidden;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px var(--primary-glow);
+}
+
+button:active { transform: translateY(0); }
+
+.btn-text {
+    background: transparent !important;
+    border: none !important;
+    color: #94a3b8 !important;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 10px;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.btn-text:hover {
+    color: #cbd5e1 !important;
+}
+
+/* ==========================================================================
+   5. COMPONENTES: INPUTS Y CARDS
+   ========================================================================== */
+input {
+    width: 100%;
+    margin: 12px 0; padding: 16px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: white;
+    transition: var(--transition);
+}
+
+input:focus {
+    border-color: var(--primary);
+    background: rgba(0,0,0,0.5);
+    outline: none;
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.card {
+    background: rgba(255,255,255,0.03);
+    padding: 24px; margin: 16px 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+    display: flex; align-items: center; justify-content: space-between;
+    transition: var(--transition);
+    cursor: default;
+}
+
+.card:hover { 
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* ==========================================================================
+   6. MODAL Y TOASTS
+   ========================================================================== */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(12px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #0f172a;
+    padding: 48px;
+    width: 90%; max-width: 500px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 40px 60px rgba(0,0,0,0.8);
+    position: relative;
+}
+
+.toast {
+    position: fixed; bottom: 30px; right: 30px;
+    padding: 16px 32px; border-radius: var(--radius-md);
+    background: var(--danger); color: white;
+    font-weight: 600; z-index: 9999;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ==========================================================================
+   7. UTILIDADES DE ESTADO (LOADING, VACÍO, ETC.)
+   ========================================================================== */
+.empty-state { 
+    text-align: center; color: var(--text-muted); padding: 40px; 
+    font-style: italic; 
+}
+
+/* ==========================================================================
+   8. ANIMACIONES DE ESTADO Y FLUIDEZ (MICRO-INTERACCIONES)
+   ========================================================================== */
+
+/* Animación de entrada para secciones */
+.pantalla { 
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+
+/* Efecto de rebote sutil al abrir modales */
+.modal-content {
+    animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Transición suave para el Toast */
+.toast {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+}
+
+.toast.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Efecto de pulso en botones para indicar acción */
+button:active {
+    transform: scale(0.98);
+}
+
+/* Mejora de visibilidad de scroll en tarjetas */
+.card-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* ==========================================================================
+   9. UTILIDADES DE POSICIONAMIENTO Y ESPACIADO (Flex Helpers)
+   ========================================================================== */
+.mt-sm { margin-top: 8px; }
+.mt-md { margin-top: 16px; }
+.mt-lg { margin-top: 32px; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.text-center { text-align: center; }
+
+/* ==========================================================================
+   10. ESTILOS DE ESTADO (Loading y Errores)
+   ========================================================================== */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
+.input-error {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+#pokeAPI {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+    max-height: 500px; /* Limita la altura */
+    overflow-y: auto;  /* Agrega barra de scroll si hay muchos */
+    padding: 10px;
+    background: #1e293b; /* Un fondo oscuro para que resalte */
+    border-radius: 8px;
+}
+
+/* ==========================================================================
+   11. MEDIA QUERIES (Responsividad para Móviles)
+   ========================================================================== */
+@media (max-width: 640px) {
+    #app {
+        padding: 20px;
+        margin: 10px;
+        border-radius: var(--radius-md);
+    }
+    
+    .topbar {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    button, input {
+        width: 100%;
+    }
+
+    .modal-content {
+        padding: 24px;
+        width: 95%;
+    }
+}
+
+/* ==========================================================================
+   12. TIPOGRAFÍA Y ESTILOS DE TEXTO
+   ========================================================================== */
+h1 { font-size: 2rem; color: var(--text-main); margin: 0; }
+h3 { color: var(--text-muted); font-weight: 500; font-size: 1.1rem; }
+b { color: var(--primary); }
+
+/* ==========================================================================
+   13. COMPONENTES EXTRA: TOAST SUCCESS/ERROR
+   ========================================================================== */
+.toast.success { background: var(--success); }
+.toast.error { background: var(--danger); }
+
+/* ==========================================================================
+   14. EFECTOS DE HOVER AVANZADOS EN CARDS
+   ========================================================================== */
+.card-hover-effect:hover {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.05), rgba(255,255,255,0.02));
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+}
+
+/* ==========================================================================
+   15. DOCUMENTACIÓN Y MANTENIMIENTO
+   ========================================================================== */
+/* - Arquitectura: Estilo Modular
+   - Sistema de color: Basado en Tailwind CSS (Slate/Sky)
+   - Animaciones: GPU Accelerated mediante transformaciones
+   - Mantenedor: Adrián Daniel Argotte Marichal
+   - Fecha: Abril 2026
+*/
+
+/* ==========================================================================
+   16. ESTILOS POKÉDEX (Correcciones para Listado)
+   ========================================================================== */
+
+/* Contenedor del listado de Pokémon dentro de la tarjeta de usuario */
+.grid-pokemon {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+/* Tarjeta individual del Pokémon */
+.poke-card {
+    background: rgba(30, 41, 59, 0.6); /* Un poco más oscuro que el fondo */
+    border: 1px solid var(--glass-border);
+    padding: 10px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    width: 100px;
+    transition: var(--transition);
+}
+
+.poke-card:hover {
+    border-color: var(--primary);
+    background: rgba(56, 189, 248, 0.1);
+}
+
+/* Imagen del Pokémon */
+.poke-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 8px auto;
+    /* Esto ayuda si la imagen tiene fondo transparente */
+    filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.2));
+}
+
+/* Texto dentro de la tarjeta */
+.poke-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main); /* Blanco para que se lea bien */
+}
+
+.poke-card small {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+/* Animación de vibración (Shake) */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* Clase para activar la vibración y el borde rojo */
+.shake-error {
+    animation: shake 0.4s ease-in-out;
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}

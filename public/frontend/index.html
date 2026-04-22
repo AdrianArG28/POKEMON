@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Admin Panel</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+   <div id="auth" class="auth-container">
+    <div id="loginBox">
+        <h2>Iniciar Sesión</h2>
+        <input id="loginCedula" placeholder="Cédula">
+        <button onclick="login()">Entrar</button>
+        <button class="btn-text" onclick="toggleAuth()">¿No tienes cuenta? Regístrate</button>
+    </div>
+
+    <div id="registerBox" class="hidden">
+        <h2>Crear Cuenta</h2>
+        <input id="regCedula" placeholder="Cédula">
+        <input id="regNombre" placeholder="Nombre">
+        <input id="regEmail" placeholder="Email">
+        <input id="regEdad" placeholder="Edad">
+        <button onclick="registrar()">Registrar</button>
+        <button class="btn-text" onclick="toggleAuth()">Ya tengo cuenta</button>
+    </div>
+</div>
+
+    <div id="app" class="hidden">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h1>Pokémon Admin Panel</h1>
+        </header>
+
+        <nav class="topbar">
+            <button onclick="mostrar('usuarios')">Usuarios</button>
+            <button onclick="mostrar('captura')">Captura</button>
+        </nav>
+
+        <main>
+            <section id="usuarios" class="pantalla">
+                <h3>Creación de Usuarios</h3>
+                <input id="cedula" placeholder="Cédula">
+                <input id="nombre" placeholder="Nombre">
+                <input id="email" placeholder="Email">
+                <input id="edad" placeholder="Edad">
+
+                <div class="actions" style="margin-top: 15px;">
+                    <button onclick="crearUsuario()">Crear</button>
+                    <button onclick="listarUsuarios()">Listar</button>
+                    <button onclick="abrirEliminarUsuarios()" style="background: #ef4444; color: white;">Borrar</button>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;">
+                <h3>Lista de Usuarios</h3>
+                <div id="listaUsuarios"></div>
+            </section>
+
+            <section id="captura" class="pantalla hidden">
+                <h3>Capturar Pokémon</h3>
+                <input id="cedulaC" placeholder="Cédula del entrenador">
+                <button onclick="cargarPokeAPI()">Cargar Pokedex</button>
+                
+                <div id="pokeAPI" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;"></div>
+
+                <div id="capturados" style="margin-top: 20px;"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/frontend/app.js"></script>
+</body>
+</html>
